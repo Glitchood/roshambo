@@ -20,9 +20,13 @@ function getHumanChoice() {
     let choice = prompt("What do you want to play? (Rock/Paper/Scissors)");
     const viable_list = ["rock", "paper", "scissors"];
     // Check if choice is null first
-    while (choice === null || viable_list.indexOf(choice.toLowerCase()) < 0) {
-        if (choice === null || choice === "") {
-            choice = prompt("You need to enter Rock, Paper, or Scissors");
+    while (choice == null || viable_list.indexOf(choice.toLowerCase()) < 0) {
+        if (choice === "") {
+            choice = prompt(
+                "You need to enter either Rock, Paper, or Scissors"
+            );
+        } else if (choice == null) {
+            return null;
         } else {
             choice = prompt(
                 `${choice} isn't Rock, Paper, or Scissors- Try again`
@@ -40,14 +44,14 @@ function beats(humanChoice, computerChoice) {
     ];
     for (let element of beatList) {
         if (element[0] === humanChoice && element[1] === computerChoice) {
-            return ["You win!", tC(humanChoice), tC(computerChoice)];
+            return ["YOU win!", tC(humanChoice), tC(computerChoice)];
         }
     }
     return ["The CPU wins!", tC(computerChoice), tC(humanChoice)];
 }
 
 function playRound(humanChoice, computerChoice) {
-    console.log(`You played ${tC(humanChoice)}`);
+    console.log(`YOU played ${tC(humanChoice)}`);
     console.log(`CPU played ${tC(computerChoice)}`);
     if (humanChoice == computerChoice) {
         console.log(`You tied! ${tC(humanChoice)} ties ${tC(computerChoice)}`);
@@ -70,6 +74,13 @@ function playGame() {
         console.log(`===|ROUND ${i}|===`);
         let computerChoice = getComputerChoice();
         let humanChoice = getHumanChoice();
+        if (humanChoice === null) {
+            console.log("==|GAME ENDED|==");
+            console.log(
+                `Final Score - YOU:${humanScore}, CPU:${computerScore}`
+            );
+            break;
+        }
         let out = playRound(humanChoice, computerChoice);
         switch (out) {
             case 0:
@@ -81,14 +92,17 @@ function playGame() {
                 computerScore++;
                 break;
         }
-        console.log(
-            `Score for Round ${i} - HUMAN:${humanScore}, CPU:${computerScore}`
-        );
+        if (i != 5) {
+            answer = `Score for Round ${i} - HUMAN:${humanScore}, CPU:${computerScore}`;
+        } else {
+            answer = `Final Score - HUMAN:${humanScore}, CPU:${computerScore}`;
+        }
+        console.log(answer);
     }
     if (humanScore == computerScore) {
-        console.log("You and the CPU tied!");
+        console.log("YOU and the CPU tied!");
     } else if (humanScore > computerScore) {
-        console.log("You beat the CPU!");
+        console.log("YOU beat the CPU!");
     } else {
         console.log("The CPU beat you!");
     }
