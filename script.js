@@ -38,12 +38,13 @@ function getHumanChoice() {
 
 function beats(humanChoice, computerChoice) {
     const beatList = [
-        ["Paper", "Rock"],
-        ["Rock", "Scissors"],
-        ["Scissors", "Paper"],
+        ["paper", "rock"],
+        ["rock", "scissors"],
+        ["scissors", "paper"],
     ];
     for (let element of beatList) {
         if (element[0] === humanChoice && element[1] === computerChoice) {
+            console.log("You win");
             return ["YOU win!", tC(humanChoice), tC(computerChoice)];
         }
     }
@@ -57,7 +58,7 @@ function playRound(humanChoice, computerChoice) {
         console.log(`You tied! ${tC(humanChoice)} ties ${tC(computerChoice)}`);
         return 0; // Tie case
     } else {
-        const result = beats(humanChoice, computerChoice);
+        let result = beats(humanChoice, computerChoice);
         console.log(`${result[0]} ${result[1]} beats ${result[2]}`);
         if (humanChoice == result[1]) {
             return 1; // Human win case
